@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jucá Studio — Art Direction for World Tours & Releases</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Helvetica+Neue:wght@300;400&family=Space+Mono:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --ink: #0a0804;
+    --parchment: #f5f0e8;
+    --gold: #c9a84c;
+    --gold-light: #e8d5a3;
+    --dust: #8a7d6b;
+    --warm-white: #faf7f2;
+    --accent: #2a1f0e;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ink);
+    color: var(--parchment);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    position: fixed;
+    width: 8px; height: 8px;
+    background: var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.15s ease;
+    transform: translate(-50%, -50%);
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 32px; height: 32px;
+    border: 1px solid rgba(201,168,76,0.4);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transition: transform 0.4s ease, width 0.3s, height 0.3s, opacity 0.3s;
+    transform: translate(-50%, -50%);
+  }
+  a:hover ~ .cursor-ring, button:hover ~ .cursor-ring { width: 48px; height: 48px; }
+
+  /* Nav */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 2rem 4rem;
+    display: flex; justify-content: space-between; align-items: center;
+    mix-blend-mode: normal;
+  }
+  nav::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgba(10,8,4,0.9) 0%, transparent 100%);
+    pointer-events: none;
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 300;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--parchment);
+    text-decoration: none;
+    position: relative;
+    z-index: 1;
+  }
+  .nav-links {
+    display: flex; gap: 3rem;
+    list-style: none;
+    position: relative; z-index: 1;
+  }
+  .nav-links a {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dust);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* Hero */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    position: relative;
+    overflow: hidden;
+    padding: 0 4rem;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: 
+      radial-gradient(ellipse 80% 60% at 60% 40%, rgba(201,168,76,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(201,168,76,0.04) 0%, transparent 50%),
+      var(--ink);
+  }
+
+  .hero-grain {
+    position: absolute; inset: 0;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 12rem;
+    padding-bottom: 4rem;
+    position: relative; z-index: 2;
+    max-width: 900px;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.3s forwards;
+  }
+
+  .hero-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 8vw, 7.5rem);
+    font-weight: 300;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.5s forwards;
+  }
+
+  .hero-headline em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  .hero-sub {
+    font-size: 1.15rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--dust);
+    max-width: 520px;
+    margin-bottom: 3.5rem;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.7s forwards;
+  }
+
+  .hero-cta {
+    display: flex; align-items: center; gap: 3rem;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.9s forwards;
+  }
+
+  .btn-primary {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink);
+    background: var(--gold);
+    padding: 1.1rem 2.5rem;
+    text-decoration: none;
+    transition: background 0.3s, transform 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+  .btn-ghost {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dust);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(138,125,107,0.3);
+    padding-bottom: 2px;
+    transition: color 0.3s, border-color 0.3s;
+  }
+  .btn-ghost:hover { color: var(--parchment); border-color: var(--parchment); }
+
+  .hero-scroll {
+    padding: 2rem 0 3rem;
+    position: relative; z-index: 2;
+    display: flex; align-items: center; gap: 1rem;
+    opacity: 0;
+    animation: fadeIn 1s ease 1.5s forwards;
+  }
+  .hero-scroll span {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--dust);
+  }
+  .scroll-line {
+    width: 60px; height: 1px;
+    background: linear-gradient(to right, var(--dust), transparent);
+  }
+
+  /* Divider */
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(201,168,76,0.2), transparent);
+  }
+
+  /* Section base */
+  section {
+    padding: 8rem 4rem;
+    position: relative;
+  }
+
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 24px; height: 1px;
+    background: var(--gold);
+  }
+
+  /* Pain section */
+  .pain {
+    background: var(--warm-white);
+    color: var(--ink);
+  }
+  .pain .section-label { color: var(--gold); }
+  .pain .section-label::before { background: var(--gold); }
+
+  .pain-headline {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 300;
+    line-height: 1.15;
+    max-width: 700px;
+    margin-bottom: 5rem;
+  }
+
+  .pain-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4rem;
+  }
+
+  .pain-item {}
+  .pain-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem;
+    font-weight: 300;
+    color: var(--gold);
+    opacity: 0.4;
+    line-height: 1;
+    margin-bottom: 1.5rem;
+  }
+  .pain-item h3 {
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+    color: var(--ink);
+  }
+  .pain-item p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: #5a4f42;
+    font-weight: 300;
+  }
+
+  /* Case study */
+  .case {
+    background: var(--ink);
+    overflow: hidden;
+  }
+
+  .case-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8rem;
+    align-items: start;
+  }
+
+  .case-visual {
+    position: relative;
+  }
+
+  .case-poster {
+    width: 100%;
+    aspect-ratio: 2/3;
+    background: linear-gradient(135deg, #1a1208 0%, #2d1f0a 30%, #0d0b06 70%, #1a1208 100%);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .poster-inner {
+    position: absolute; inset: 0;
+    background: 
+      radial-gradient(ellipse 70% 50% at 50% 30%, rgba(201,168,76,0.15) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 20% 70%, rgba(180,120,30,0.1) 0%, transparent 50%);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 3rem;
+  }
+
+  .poster-circle {
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.3);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    margin-bottom: 2rem;
+  }
+  .poster-circle::before {
+    content: '';
+    position: absolute;
+    width: 130px; height: 130px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.15);
+  }
+  .poster-circle::after {
+    content: '✦';
+    font-size: 2rem;
+    color: var(--gold);
+    opacity: 0.6;
+  }
+
+  .poster-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    text-align: center;
+    color: var(--gold-light);
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  .poster-sub {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--dust);
+    text-align: center;
+  }
+
+  .poster-tag {
+    position: absolute;
+    top: 1.5rem; right: 1.5rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    border: 1px solid rgba(201,168,76,0.3);
+    padding: 0.4rem 0.8rem;
+    text-transform: uppercase;
+  }
+
+  .case-countries {
+    display: flex; gap: 0.5rem; flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+  .country-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.15em;
+    color: var(--dust);
+    border: 1px solid rgba(138,125,107,0.2);
+    padding: 0.3rem 0.7rem;
+  }
+
+  .case-content {}
+
+  .case-headline {
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 300;
+    line-height: 1.15;
+    margin-bottom: 2rem;
+  }
+  .case-headline em { font-style: italic; color: var(--gold-light); }
+
+  .case-body {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--dust);
+    margin-bottom: 3rem;
+  }
+
+  .case-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-bottom: 3rem;
+    padding: 2rem 0;
+    border-top: 1px solid rgba(201,168,76,0.15);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+  }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.8rem;
+    font-weight: 300;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .stat-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dust);
+  }
+
+  .case-insight {
+    background: rgba(201,168,76,0.05);
+    border-left: 2px solid var(--gold);
+    padding: 1.5rem 2rem;
+    margin-bottom: 3rem;
+  }
+  .case-insight p {
+    font-style: italic;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--gold-light);
+  }
+
+  /* What we do */
+  .services {
+    background: #0d0b07;
+  }
+
+  .services-headline {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 300;
+    line-height: 1.15;
+    max-width: 600px;
+    margin-bottom: 5rem;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 1px solid rgba(201,168,76,0.1);
+  }
+
+  .service-item {
+    padding: 3rem;
+    border-right: 1px solid rgba(201,168,76,0.1);
+    transition: background 0.4s;
+    position: relative;
+    overflow: hidden;
+  }
+  .service-item:last-child { border-right: none; }
+  .service-item:hover { background: rgba(201,168,76,0.03); }
+
+  .service-icon {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    display: block;
+    opacity: 0.7;
+  }
+  .service-title {
+    font-size: 1.3rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+  .service-desc {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--dust);
+    font-weight: 300;
+  }
+
+  /* Process */
+  .process {
+    background: var(--warm-white);
+    color: var(--ink);
+  }
+  .process .section-label { color: var(--gold); }
+  .process .section-label::before { background: var(--gold); }
+
+  .process-headline {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 300;
+    margin-bottom: 5rem;
+    max-width: 500px;
+  }
+
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3rem;
+    position: relative;
+  }
+  .process-steps::before {
+    content: '';
+    position: absolute;
+    top: 1.5rem; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, var(--gold-light), transparent);
+  }
+
+  .process-step { padding-top: 4rem; }
+  .step-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    display: block;
+  }
+  .step-title {
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin-bottom: 0.75rem;
+  }
+  .step-desc {
+    font-size: 0.88rem;
+    line-height: 1.7;
+    color: #5a4f42;
+    font-weight: 300;
+  }
+
+  /* For who */
+  .for-who {
+    background: var(--ink);
+  }
+
+  .for-who-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8rem;
+    align-items: center;
+  }
+
+  .for-who-headline {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 300;
+    line-height: 1.15;
+    margin-bottom: 2rem;
+  }
+  .for-who-headline em { font-style: italic; color: var(--gold-light); }
+
+  .for-who-body {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--dust);
+    margin-bottom: 3rem;
+  }
+
+  .for-who-list {
+    list-style: none;
+    display: flex; flex-direction: column; gap: 1rem;
+  }
+  .for-who-list li {
+    display: flex; align-items: flex-start; gap: 1rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--parchment);
+  }
+  .for-who-list li::before {
+    content: '—';
+    color: var(--gold);
+    font-size: 0.8rem;
+    margin-top: 0.15rem;
+    flex-shrink: 0;
+  }
+
+  .for-who-visual {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .fwv-card {
+    aspect-ratio: 3/4;
+    background: linear-gradient(135deg, #1a1208, #0d0b06);
+    position: relative;
+    overflow: hidden;
+    display: flex; align-items: flex-end; padding: 1.5rem;
+  }
+  .fwv-card:nth-child(2) { margin-top: 2rem; }
+  .fwv-card-glow {
+    position: absolute; inset: 0;
+  }
+  .fwv-card:nth-child(1) .fwv-card-glow {
+    background: radial-gradient(ellipse at 50% 30%, rgba(201,168,76,0.12) 0%, transparent 60%);
+  }
+  .fwv-card:nth-child(2) .fwv-card-glow {
+    background: radial-gradient(ellipse at 50% 60%, rgba(180,100,20,0.1) 0%, transparent 60%);
+  }
+  .fwv-card:nth-child(3) .fwv-card-glow {
+    background: radial-gradient(ellipse at 50% 40%, rgba(150,130,80,0.1) 0%, transparent 60%);
+  }
+  .fwv-card:nth-child(4) .fwv-card-glow {
+    background: radial-gradient(ellipse at 50% 50%, rgba(201,168,76,0.08) 0%, transparent 60%);
+  }
+  .fwv-label {
+    position: relative; z-index: 1;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dust);
+  }
+
+  /* CTA */
+  .cta-section {
+    background: linear-gradient(135deg, #0d0b06 0%, #1a1208 50%, #0d0b06 100%);
+    text-align: center;
+    padding: 10rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(201,168,76,0.06) 0%, transparent 70%);
+  }
+
+  .cta-eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2rem;
+    position: relative; z-index: 1;
+  }
+  .cta-headline {
+    font-size: clamp(2.5rem, 6vw, 5.5rem);
+    font-weight: 300;
+    line-height: 1.1;
+    margin-bottom: 2rem;
+    position: relative; z-index: 1;
+  }
+  .cta-headline em { font-style: italic; color: var(--gold-light); }
+
+  .cta-sub {
+    font-size: 1.1rem;
+    color: var(--dust);
+    margin-bottom: 4rem;
+    max-width: 500px;
+    margin-left: auto; margin-right: auto;
+    line-height: 1.7;
+    position: relative; z-index: 1;
+  }
+
+  .cta-actions {
+    display: flex; gap: 2rem; justify-content: center; align-items: center;
+    position: relative; z-index: 1;
+  }
+
+  /* Footer */
+  footer {
+    background: var(--ink);
+    border-top: 1px solid rgba(201,168,76,0.1);
+    padding: 3rem 4rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    font-weight: 300;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--dust);
+    text-decoration: none;
+  }
+  .footer-copy {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    color: rgba(138,125,107,0.5);
+  }
+  .footer-links {
+    display: flex; gap: 2rem; list-style: none;
+  }
+  .footer-links a {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dust);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--gold); }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Mobile */
+  @media (max-width: 900px) {
+    nav { padding: 1.5rem 2rem; }
+    .nav-links { display: none; }
+    section { padding: 5rem 2rem; }
+    .hero { padding: 0 2rem; }
+    .hero-content { padding-top: 8rem; }
+    .pain-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .case-inner { grid-template-columns: 1fr; gap: 4rem; }
+    .services-grid { grid-template-columns: 1fr; }
+    .service-item { border-right: none; border-bottom: 1px solid rgba(201,168,76,0.1); }
+    .process-steps { grid-template-columns: 1fr 1fr; }
+    .for-who-inner { grid-template-columns: 1fr; gap: 4rem; }
+    .for-who-visual { display: none; }
+    footer { flex-direction: column; gap: 2rem; text-align: center; }
+    .cta-section { padding: 6rem 2rem; }
+    .cta-actions { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Jucá Studio</a>
+  <ul class="nav-links">
+    <li><a href="#case">Work</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grain"></div>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow">Art Direction · World Tours · Releases</p>
+    <h1 class="hero-headline">
+      Your music<br>
+      deserves a visual<br>
+      <em>presence as deep<br>as its sound.</em>
+    </h1>
+    <p class="hero-sub">
+      We create the complete visual identity for spiritual artists and musicians going on world tour or releasing — so every country, every stage, every screen carries the same soul.
+    </p>
+    <div class="hero-cta">
+      <a href="https://wa.me/351966059009" class="btn-primary">Start a conversation</a>
+      <a href="#case" class="btn-ghost">See our work</a>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll to explore</span>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PAIN -->
+<section class="pain" id="pain">
+  <div class="section-label">The problem we solve</div>
+  <h2 class="pain-headline reveal">
+    Most spiritual artists carry extraordinary work into the world — wrapped in visual identity that doesn't match its depth.
+  </h2>
+  <div class="pain-grid">
+    <div class="pain-item reveal">
+      <div class="pain-number">01</div>
+      <h3>Your tour is global. Your identity isn't.</h3>
+      <p>Different studios, different countries, different interpretations — by the time the tour ends, no one knows what your visual world looks like. The inconsistency costs trust and recognition.</p>
+    </div>
+    <div class="pain-item reveal">
+      <div class="pain-number">02</div>
+      <h3>You know what you feel. Not what to ask for.</h3>
+      <p>Briefing a designer who doesn't understand mantra, ceremony or sacred sound is exhausting. You spend hours translating your inner world into a language they half-understand — and it still comes out wrong.</p>
+    </div>
+    <div class="pain-item reveal">
+      <div class="pain-number">03</div>
+      <h3>A release date is fixed. Creative chaos isn't.</h3>
+      <p>Launches and tours don't wait. When visual identity is fragmented or incomplete, the pressure falls on you — and the moment suffers. You need someone who treats your deadline as sacred as you do.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CASE STUDY -->
+<section class="case" id="case">
+  <div class="section-label">Featured work</div>
+  <div class="case-inner">
+
+    <div class="case-visual reveal">
+      <div class="case-poster">
+        <div class="poster-inner">
+          <div class="poster-circle"></div>
+          <div class="poster-title">World<br>Sacred Tour</div>
+          <div class="poster-sub">Visual Identity System · 2024</div>
+        </div>
+        <div class="poster-tag">World Tour</div>
+      </div>
+      <div class="case-countries">
+        <span class="country-tag">Brazil</span>
+        <span class="country-tag">Portugal</span>
+        <span class="country-tag">Germany</span>
+        <span class="country-tag">United States</span>
+        <span class="country-tag">Netherlands</span>
+        <span class="country-tag">+ more</span>
+      </div>
+    </div>
+
+    <div class="case-content reveal">
+      <h2 class="case-headline">
+        A visual system built to carry <em>sacred sound</em> across continents — without losing its soul.
+      </h2>
+      <p class="case-body">
+        The client came asking for a poster. What they actually needed was a complete visual identity that could travel — adapted by local studios in different countries while maintaining the essence of the work. We designed the system. Then we designed the rules for everyone else to use it.
+      </p>
+
+      <div class="case-stats">
+        <div>
+          <div class="stat-num">6+</div>
+          <div class="stat-label">Countries</div>
+        </div>
+        <div>
+          <div class="stat-num">01</div>
+          <div class="stat-label">Visual identity</div>
+        </div>
+        <div>
+          <div class="stat-num">∞</div>
+          <div class="stat-label">Adaptations</div>
+        </div>
+      </div>
+
+      <div class="case-insight">
+        <p>"What we delivered wasn't a poster — it was a visual language that let every local team speak the same truth in their own context."</p>
+      </div>
+
+      <a href="https://wa.me/351966059009" class="btn-primary">Discuss your project</a>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="section-label">What we offer</div>
+  <h2 class="services-headline reveal">
+    Three ways to work together — all built around one moment that matters.
+  </h2>
+  <div class="services-grid">
+    <div class="service-item reveal">
+      <span class="service-icon">◎</span>
+      <h3 class="service-title">Release Art Direction</h3>
+      <p class="service-desc">Full visual identity for an album or single release — concept, system, all key pieces, usage guide. Ready in 3–6 weeks so your launch lands with presence.</p>
+    </div>
+    <div class="service-item reveal">
+      <span class="service-icon">◈</span>
+      <h3 class="service-title">World Tour Identity</h3>
+      <p class="service-desc">A complete visual system designed to travel — adaptable by local teams in any country while keeping the soul of your work intact. Poster, stage, merch, digital, and the rules for all of it.</p>
+    </div>
+    <div class="service-item reveal">
+      <span class="service-icon">◇</span>
+      <h3 class="service-title">Ongoing Visual Presence</h3>
+      <p class="service-desc">A retainer for artists building their presence over time. We become your visual thinking partner — for tour, content, releases, and every moment in between.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div class="section-label">How we work</div>
+  <h2 class="process-headline reveal">
+    We diagnose before we design.
+  </h2>
+  <div class="process-steps">
+    <div class="process-step reveal">
+      <span class="step-num">01 — Listen</span>
+      <h3 class="step-title">Deep discovery</h3>
+      <p class="step-desc">We start by understanding your work, your world, and what this moment means to you. No briefing form. A real conversation.</p>
+    </div>
+    <div class="process-step reveal">
+      <span class="step-num">02 — Diagnose</span>
+      <h3 class="step-title">Define the real problem</h3>
+      <p class="step-desc">We identify what you actually need — which is often larger and more systemic than what you asked for. Then we present exactly that.</p>
+    </div>
+    <div class="process-step reveal">
+      <span class="step-num">03 — Create</span>
+      <h3 class="step-title">Build the system</h3>
+      <p class="step-desc">We design not just the pieces but the logic — so every application, in every country, in every format, carries the same presence.</p>
+    </div>
+    <div class="process-step reveal">
+      <span class="step-num">04 — Deliver</span>
+      <h3 class="step-title">Hand over with clarity</h3>
+      <p class="step-desc">Files, guidelines, and a walkthrough — so your team and local studios can use the identity confidently without needing us in the room.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FOR WHO -->
+<section class="for-who" id="about">
+  <div class="for-who-inner">
+    <div>
+      <div class="section-label">Who we work with</div>
+      <h2 class="for-who-headline reveal">
+        For artists whose work is <em>too deep</em> to be wrapped in generic design.
+      </h2>
+      <p class="for-who-body reveal">
+        We work with a small number of artists and music projects at a time. Not because we can't handle more — because the work demands full attention, and our clients deserve exactly that.
+      </p>
+      <ul class="for-who-list reveal">
+        <li>Spiritual musicians and mantra artists preparing for world tour</li>
+        <li>Independent artists releasing work with international reach</li>
+        <li>Music producers and collectives building a visual world around a sound</li>
+        <li>Wellness and sacred arts festivals needing coherent identity</li>
+      </ul>
+    </div>
+    <div class="for-who-visual">
+      <div class="fwv-card">
+        <div class="fwv-card-glow"></div>
+        <span class="fwv-label">Tour identity</span>
+      </div>
+      <div class="fwv-card">
+        <div class="fwv-card-glow"></div>
+        <span class="fwv-label">Release system</span>
+      </div>
+      <div class="fwv-card">
+        <div class="fwv-card-glow"></div>
+        <span class="fwv-label">Motion & video</span>
+      </div>
+      <div class="fwv-card">
+        <div class="fwv-card-glow"></div>
+        <span class="fwv-label">Stage & merch</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <p class="cta-eyebrow">Ready to begin</p>
+  <h2 class="cta-headline reveal">
+    Your next tour or release<br>
+    <em>starts with one conversation.</em>
+  </h2>
+  <p class="cta-sub reveal">
+    Tell us about your project. We'll tell you honestly if and how we can help — and what that would look like.
+  </p>
+  <div class="cta-actions reveal">
+    <a href="https://wa.me/351966059009" class="btn-primary">Message on WhatsApp</a>
+    <a href="mailto:hello@juca.studio" class="btn-ghost">Send an email</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#" class="footer-logo">Jucá Studio</a>
+  <ul class="footer-links">
+    <li><a href="#case">Work</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <p class="footer-copy">© 2026 Jucá Studio. Art Direction for World Tours & Releases.</p>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+  });
+
+  function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.transform = 'translate(-50%, -50%) scale(2)';
+      cursor.style.background = 'transparent';
+      cursor.style.border = '1px solid var(--gold)';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+      cursor.style.background = 'var(--gold)';
+      cursor.style.border = 'none';
+    });
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, 100);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  reveals.forEach(el => observer.observe(el));
+
+  // Staggered siblings
+  document.querySelectorAll('.pain-grid, .services-grid, .process-steps, .case-stats').forEach(parent => {
+    const children = parent.querySelectorAll('.reveal, .pain-item, .service-item, .process-step');
+    children.forEach((child, i) => {
+      child.style.transitionDelay = (i * 0.12) + 's';
+    });
+  });
+</script>
+</body>
+</html>
